@@ -26,8 +26,12 @@ var thermostat;
 
   describe('Switching between power modes', function() {
   	it('is in power save mode by default', function() {
-  		expect(thermostat.inPowerSave()).toBe(true);
+  		expect(thermostat.isPowerSave()).toBe(true);
   	});
+    it('can switch psm off', function(){
+      thermostat.switchPsmOff();
+      expect(thermostat.isPowerSave()).toBe(false);
+    });
   });
 
 
@@ -38,11 +42,18 @@ var thermostat;
       }
       expect(thermostat.getTemperature()).toEqual(10);
     });
-    it('has a default maximum temperature', function() {
+    it('has a default maximum temperature of 25', function() {
     	for ( var i = 0; i < 6; i++ ) {
     		thermostat.incTemperature();
     	}
     	expect(thermostat.getTemperature()).toEqual(25);
+    });
+    it('has a maximum of 32 when psm is off', function(){
+      thermostat.switchPsmOff();
+      for ( var i = 0; i < 12; i++ ) {
+    		thermostat.incTemperature();
+    	}
+    	expect(thermostat.getTemperature()).toEqual(32);
     });
   });
 });

@@ -2,8 +2,10 @@
 
 function Thermostat() {
   this.MINIMUM_TEMP = 10
+  this.FULL_POWER_MAX = 32
   this.POWER_SAVE_MAX = 25
   this.temp = 20
+  this.powerSaveMode = true
 }
 
 
@@ -26,5 +28,14 @@ function Thermostat() {
     return this.temp === this.MINIMUM_TEMP;
   };
   Thermostat.prototype.isMaximumTemp = function () {
-  	return this.temp === this.POWER_SAVE_MAX;
+    if(this.isPowerSave() === false) {
+     return this.temp === this.FULL_POWER_MAX;
+    }
+     return this.temp === this.POWER_SAVE_MAX;
+  };
+  Thermostat.prototype.isPowerSave = function () {
+    return this.powerSaveMode === true;
+  };
+  Thermostat.prototype.switchPsmOff = function (){
+    this.powerSaveMode = false;
   };
