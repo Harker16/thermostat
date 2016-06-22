@@ -13,6 +13,12 @@ var thermostat;
   });
 
   it('can increase temperature by pressing up', function(){
+  	thermostat.incTemperature();
+  	expect(thermostat.getTemperature()).toEqual(21);
+  });
 
+  it('can decrease temperture by presssing down', function() {
+  	thermostat.decTemperature();
+  	expect(thermostat.getTemperature()).toEqual(19);
   });
 });
