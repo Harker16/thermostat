@@ -32,6 +32,12 @@ var thermostat;
       thermostat.switchPsmOff();
       expect(thermostat.isPowerSave()).toBe(false);
     });
+    it('can switch psm on', function(){
+      thermostat.switchPsmOff();
+      expect(thermostat.isPowerSave()).toBe(false);
+      thermostat.switchPsmOn();
+      expect(thermostat.isPowerSave()).toBe(true);
+    });
   });
 
 
@@ -54,6 +60,37 @@ var thermostat;
     		thermostat.incTemperature();
     	}
     	expect(thermostat.getTemperature()).toEqual(32);
+    });
+    it('can be reset to the default temperature', function() {
+      for ( var i = 0; i < 5; i++ ) {
+        thermostat.incTemperature();
+      }
+      thermostat.resetTemperature();
+      expect(thermostat.getTemperature()).toEqual(20);
+    });
+  });
+  describe('displaying usage levels', function() {
+    describe('when the temperature is below 18 degrees', function() {
+      it('it is considered low-usage', function() {
+        for (var i = 0; i < 3; i++) {
+          thermostat.decTemperature();
+        }
+        expect(thermostat.energyUsage()).toEqual('low-usage')
+      });
+    });
+    describe('when the temperature is between 18 and 25 degrees', function() {
+      it('it is considered medium-usage', function() {
+        expect(thermostat.energyUsage()).toEqual('medium-usage');
+      });
+    });
+    describe('when the temperature is anything else', function() {
+      it('it is considered high-usage', function() {
+        thermostat.switchPsmOff();
+        for (var i = 0; i < 6; i++) {
+          thermostat.incTemperature();
+        }
+        expect(thermostat.energyUsage()).toEqual('high-usage');
+      });
     });
   });
 });
